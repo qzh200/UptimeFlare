@@ -13,7 +13,7 @@ export default function Footer() {
       }}
     >
       <Text size="xs" mb={4}>
-        {pageConfig.customFooterText ?? 'Open-source monitoring and status page powered by '}
+        Open-source monitoring and status page powered by{' '}
         <Anchor
           href="https://github.com/lyc8503/UptimeFlare"
           target="_blank"
