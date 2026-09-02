@@ -19,10 +19,10 @@ export default function MonitorDetail({
   if (!state.latency[monitor.id])
     return (
       <>
-        <Text mt="sm" fw={700}>
+        <Text mt="sm" fw={700} style={{ fontSize: '1.05rem' }}>
           {monitor.name}
         </Text>
-        <Text mt="sm" fw={700}>
+        <Text mt="sm" fw={700} c="dimmed">
           {t('No data available')}
         </Text>
       </>
@@ -31,11 +31,21 @@ export default function MonitorDetail({
   let statusIcon =
     state.incident[monitor.id].slice(-1)[0].end === null ? (
       <IconAlertCircle
-        style={{ width: '1.25em', height: '1.25em', color: '#b91c1c', marginRight: '3px' }}
+        style={{
+          width: '1.25em',
+          height: '1.25em',
+          color: 'hsl(var(--destructive))',
+          marginRight: '6px',
+        }}
       />
     ) : (
       <IconCircleCheck
-        style={{ width: '1.25em', height: '1.25em', color: '#059669', marginRight: '3px' }}
+        style={{
+          width: '1.25em',
+          height: '1.25em',
+          color: 'hsl(var(--success))',
+          marginRight: '6px',
+        }}
       />
     )
 
@@ -50,28 +60,33 @@ export default function MonitorDetail({
         style={{
           width: '1.25em',
           height: '1.25em',
-          color: '#fab005',
-          marginRight: '3px',
+          color: 'hsl(var(--warning))',
+          marginRight: '6px',
         }}
       />
     )
 
-  let totalTime = Date.now() / 1000 - state.incident[monitor.id][0].start[0]
+  let totalTime = Date.now() / 1000 - state.incident[monitor.id][0].start
   let downTime = 0
   for (let incident of state.incident[monitor.id]) {
-    downTime += (incident.end ?? Date.now() / 1000) - incident.start[0]
+    downTime += (incident.end ?? Date.now() / 1000) - incident.start
   }
 
   const uptimePercent = (((totalTime - downTime) / totalTime) * 100).toPrecision(4)
 
   // Conditionally render monitor name with or without hyperlink based on monitor.url presence
   const monitorNameElement = (
-    <Text mt="sm" fw={700} style={{ display: 'inline-flex', alignItems: 'center' }}>
+    <Text mt="sm" fw={700} style={{ display: 'inline-flex', alignItems: 'center', fontSize: '1.05rem' }}>
       {monitor.statusPageLink ? (
         <a
           href={monitor.statusPageLink}
           target="_blank"
-          style={{ display: 'inline-flex', alignItems: 'center', color: 'inherit' }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            color: 'hsl(var(--foreground))',
+            textDecoration: 'none',
+          }}
         >
           {statusIcon} {monitor.name}
         </a>
@@ -85,14 +100,22 @@ export default function MonitorDetail({
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {monitor.tooltip ? (
           <Tooltip label={monitor.tooltip}>{monitorNameElement}</Tooltip>
         ) : (
           monitorNameElement
         )}
 
-        <Text mt="sm" fw={700} style={{ display: 'inline', color: getColor(uptimePercent, true) }}>
+        <Text
+          mt="sm"
+          fw={700}
+          style={{
+            display: 'inline',
+            color: getColor(uptimePercent, true),
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
           {t('Overall', { percent: uptimePercent })}
         </Text>
       </div>

@@ -7,12 +7,26 @@ import {
 } from '../../types/config'
 
 export async function getFromStore(env: Env, key: string): Promise<string | null> {
+  // Gracefully degrade when the D1 binding is missing (e.g. local dev before
+  // any D1 is provisioned, or a freshly-imported Pages project that hasn't
+  // been re-deployed with a D1 binding yet). In development we additionally
+  // return a synthetic state so the UI can be reviewed end-to-end.
+  if (!env?.UPTIMEFLARE_D1) {
+    if (process.env.NODE_ENV === 'development' && key === 'state') {
+      const { DEV_MOCK_STATE } = await import('./dev-fixtures')
+      return DEV_MOCK_STATE
+    }
+    return null
+  }
   const stmt = env.UPTIMEFLARE_D1.prepare('SELECT value FROM uptimeflare WHERE key = ?')
   const result = await stmt.bind(key).first<{ value: string }>()
   return result?.value || null
 }
 
 export async function setToStore(env: Env, key: string, value: string): Promise<void> {
+  if (!env?.UPTIMEFLARE_D1) {
+    throw new Error('UPTIMEFLARE_D1 binding is not configured.')
+  }
   const stmt = env.UPTIMEFLARE_D1.prepare(
     'INSERT INTO uptimeflare (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value;'
   )

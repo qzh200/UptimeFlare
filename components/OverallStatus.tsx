@@ -1,6 +1,6 @@
 import { MaintenanceConfig, MonitorTarget } from '@/types/config'
-import { Center, Container, Title, Collapse, Button, Box } from '@mantine/core'
-import { IconCircleCheck, IconAlertCircle, IconPlus, IconMinus } from '@tabler/icons-react'
+import { Center, Container, Title, Collapse } from '@mantine/core'
+import { IconCircleCheck, IconAlertCircle, IconClock } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import MaintenanceAlert from './MaintenanceAlert'
 import { pageConfig } from '@/uptime.config'
@@ -30,14 +30,15 @@ export default function OverallStatus({
   let groupedMonitor = (group && Object.keys(group).length > 0) || false
 
   let statusString = ''
-  let icon = <IconAlertCircle style={{ width: 64, height: 64, color: '#b91c1c' }} />
+  let icon = <IconAlertCircle size={48} color="hsl(var(--destructive))" />
   if (state.overallUp === 0 && state.overallDown === 0) {
     statusString = t('No data yet')
+    icon = <IconClock size={48} color="hsl(var(--warning))" />
   } else if (state.overallUp === 0) {
     statusString = t('All systems not operational')
   } else if (state.overallDown === 0) {
     statusString = t('All systems operational')
-    icon = <IconCircleCheck style={{ width: 64, height: 64, color: '#059669' }} />
+    icon = <IconCircleCheck size={48} color="hsl(var(--success))" />
   } else {
     statusString = t('Some systems not operational', {
       down: state.overallDown,
@@ -86,12 +87,26 @@ export default function OverallStatus({
     }))
 
   return (
-    <Container size="md" mt="xl">
+    <Container size="md" mt="lg">
       <Center>{icon}</Center>
-      <Title mt="sm" style={{ textAlign: 'center' }} order={1}>
+      <Title
+        mt="sm"
+        order={1}
+        style={{
+          textAlign: 'center',
+          fontSize: '1.5rem',
+          fontWeight: 600,
+          color: 'hsl(var(--foreground))',
+        }}
+      >
         {statusString}
       </Title>
-      <Title mt="sm" style={{ textAlign: 'center', color: '#70778c' }} order={5}>
+      <Title
+        mt={4}
+        order={5}
+        fw={400}
+        style={{ textAlign: 'center', color: 'hsl(var(--muted-foreground))' }}
+      >
         {t('Last updated on', {
           date: new Date(state.lastUpdate * 1000).toLocaleString(),
           seconds: currentTime - state.lastUpdate,
@@ -101,10 +116,19 @@ export default function OverallStatus({
       {/* Upcoming Maintenance */}
       {upcomingMaintenances.length > 0 && (
         <>
-          <Title mt="4px" style={{ textAlign: 'center', color: '#70778c' }} order={5}>
+          <Title
+            mt="md"
+            order={5}
+            fw={400}
+            style={{ textAlign: 'center', color: 'hsl(var(--muted-foreground))' }}
+          >
             {t('upcoming maintenance', { count: upcomingMaintenances.length })}{' '}
             <span
-              style={{ textDecoration: 'underline', cursor: 'pointer' }}
+              style={{
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                color: 'hsl(var(--primary))',
+              }}
               onClick={() => setExpandUpcoming(!expandUpcoming)}
             >
               {expandUpcoming ? t('Hide') : t('Show')}

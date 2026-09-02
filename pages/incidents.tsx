@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import { Inter } from 'next/font/google'
 import { MaintenanceConfig, MonitorTarget } from '@/types/config'
 import { maintenances, pageConfig } from '@/uptime.config'
 import Header from '@/components/Header'
@@ -12,7 +11,6 @@ import NoIncidentsAlert from '@/components/NoIncidents'
 import { useTranslation } from 'react-i18next'
 
 export const runtime = 'experimental-edge'
-const inter = Inter({ subsets: ['latin'] })
 
 function getSelectedMonth() {
   const hash = window.location.hash.replace('#', '')
@@ -87,7 +85,7 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
         <link rel="icon" href={pageConfig.favicon ?? '/favicon.png'} />
       </Head>
 
-      <main className={inter.className}>
+      <main>
         <Header
           style={{
             marginBottom: '40px',
@@ -102,6 +100,7 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
                 value={selectedMonitor}
                 onChange={setSelectedMonitor}
                 clearable
+                radius="md"
                 style={{ maxWidth: 300, float: 'right' }}
               />
             </Group>
@@ -114,14 +113,29 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
                 ))
               )}
             </Box>
-            <Group justify="space-between" mt="md">
-              <Button variant="default" onClick={() => (window.location.hash = prev)}>
+            <Group justify="space-between" mt="lg">
+              <Button
+                className="shoka-button"
+                variant="filled"
+                onClick={() => (window.location.hash = prev)}
+              >
                 {t('Backwards')}
               </Button>
-              <Box style={{ alignSelf: 'center', fontWeight: 500, fontSize: 18 }}>
+              <Box
+                style={{
+                  alignSelf: 'center',
+                  fontWeight: 600,
+                  fontSize: 18,
+                  color: 'hsl(var(--foreground))',
+                }}
+              >
                 {selectedMonth}
               </Box>
-              <Button variant="default" onClick={() => (window.location.hash = next)}>
+              <Button
+                className="shoka-button"
+                variant="filled"
+                onClick={() => (window.location.hash = next)}
+              >
                 {t('Forward')}
               </Button>
             </Group>

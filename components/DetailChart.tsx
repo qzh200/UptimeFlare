@@ -44,9 +44,13 @@ export default function DetailChart({
     datasets: [
       {
         data: latencyData,
-        borderColor: 'rgb(112, 119, 140)',
+        borderColor: '#617ee8',
+        backgroundColor: 'rgba(97, 126, 232, 0.10)',
+        fill: true,
         borderWidth: 2,
-        radius: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: '#617ee8',
         cubicInterpolationMode: 'monotone' as const,
         tension: 0.4,
       },
@@ -61,7 +65,7 @@ export default function DetailChart({
       intersect: false,
     },
     animation: {
-      duration: 0,
+      duration: 300,
     },
     plugins: {
       tooltip: {
@@ -80,6 +84,10 @@ export default function DetailChart({
         display: true,
         text: t('Response times'),
         align: 'start' as const,
+        font: {
+          size: 13,
+          weight: 600 as const,
+        },
       },
     },
     scales: {
@@ -95,7 +103,7 @@ export default function DetailChart({
   }
 
   return (
-    <div style={{ height: '150px' }}>
+    <div style={{ height: '150px', marginTop: 8 }}>
       <Line options={options} data={data} />
     </div>
   )

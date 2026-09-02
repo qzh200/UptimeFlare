@@ -1,5 +1,5 @@
 import { MonitorState, MonitorTarget } from '@/types/config'
-import { Accordion, Card, Center, Text } from '@mantine/core'
+import { Accordion, Card, Center, Text, Box } from '@mantine/core'
 import MonitorDetail from './MonitorDetail'
 import { pageConfig } from '@/uptime.config'
 import { useEffect, useState } from 'react'
@@ -22,11 +22,11 @@ function countDownCount(state: MonitorState, ids: string[]) {
 function getStatusTextColor(state: MonitorState, ids: string[]) {
   let downCount = countDownCount(state, ids)
   if (downCount === 0) {
-    return '#059669'
+    return 'hsl(var(--success))'
   } else if (downCount === ids.length) {
-    return '#df484a'
+    return 'hsl(var(--destructive))'
   } else {
-    return '#f29030'
+    return 'hsl(var(--warning))'
   }
 }
 
@@ -53,14 +53,15 @@ export default function MonitorList({
   }, [expandedGroups])
 
   if (groupedMonitor) {
-    // Grouped monitors
     content = (
       <Accordion
         multiple
         defaultValue={Object.keys(group)}
-        variant="contained"
+        variant="default"
+        radius="md"
         value={expandedGroups}
         onChange={(values) => setExpandedGroups(values)}
+        chevronPosition="right"
       >
         {Object.keys(group).map((groupName) => (
           <Accordion.Item key={groupName} value={groupName}>
@@ -73,7 +74,7 @@ export default function MonitorList({
                   alignItems: 'center',
                 }}
               >
-                <div>{groupName}</div>
+                <div style={{ fontWeight: 600 }}>{groupName}</div>
                 <Text
                   fw={500}
                   style={{
@@ -92,10 +93,14 @@ export default function MonitorList({
                 .filter((monitor) => group[groupName].includes(monitor.id))
                 .sort((a, b) => group[groupName].indexOf(a.id) - group[groupName].indexOf(b.id))
                 .map((monitor) => (
-                  <div key={monitor.id}>
-                    <Card.Section ml="xs" mr="xs">
-                      <MonitorDetail monitor={monitor} state={state} />
-                    </Card.Section>
+                  <div
+                    key={monitor.id}
+                    style={{
+                      padding: '8px 0',
+                      borderTop: '1px solid hsl(var(--border))',
+                    }}
+                  >
+                    <MonitorDetail monitor={monitor} state={state} />
                   </div>
                 ))}
             </Accordion.Panel>
@@ -104,27 +109,37 @@ export default function MonitorList({
       </Accordion>
     )
   } else {
-    // Ungrouped monitors
-    content = monitors.map((monitor) => (
-      <div key={monitor.id}>
-        <Card.Section ml="xs" mr="xs">
-          <MonitorDetail monitor={monitor} state={state} />
-        </Card.Section>
-      </div>
-    ))
+    content = (
+      <Box>
+        {monitors.map((monitor, idx) => (
+          <div
+            key={monitor.id}
+            style={{
+              padding: '12px 0',
+              borderTop: idx === 0 ? 'none' : '1px solid hsl(var(--border))',
+            }}
+          >
+            <MonitorDetail monitor={monitor} state={state} />
+          </div>
+        ))}
+      </Box>
+    )
   }
 
   return (
     <Center>
       <Card
-        shadow="sm"
         padding="lg"
         radius="md"
+        withBorder
         ml="md"
         mr="md"
-        mt="xl"
-        withBorder={!groupedMonitor}
-        style={{ width: groupedMonitor ? '897px' : '865px' }}
+        mt="lg"
+        mb="xl"
+        style={{
+          width: groupedMonitor ? '897px' : '865px',
+          maxWidth: 'calc(100vw - 32px)',
+        }}
       >
         {content}
       </Card>

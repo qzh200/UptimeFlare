@@ -7,23 +7,12 @@ export default function NoIncidentsAlert({ style }: { style?: React.CSSPropertie
   return (
     <Alert
       icon={<IconInfoCircle />}
-      title={
-        <span
-          style={{
-            fontSize: '1rem',
-            fontWeight: 700,
-          }}
-        >
-          {t('No incidents in this month')}
-        </span>
-      }
+      title={t('No incidents in this month')}
       color="gray"
+      variant="light"
+      radius="md"
       withCloseButton={false}
-      style={{
-        position: 'relative',
-        margin: '16px auto 0 auto',
-        ...style,
-      }}
+      style={{ margin: '16px auto 0 auto', ...style }}
     >
       <Text>{t('There are no incidents for this month')}</Text>
     </Alert>

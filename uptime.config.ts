@@ -7,12 +7,12 @@ import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 
 const pageConfig: PageConfig = {
   // Title for your status page
-  title: "lyc8503's Status Page",
+  title: 'hoshiumi',
   // Links shown at the header of your status page, could set `highlight` to `true`
   links: [
-    { link: 'https://github.com/lyc8503', label: 'GitHub' },
-    { link: 'https://blog.lyc8503.net/', label: 'Blog' },
-    { link: 'mailto:me@lyc8503.net', label: 'Email Me', highlight: true },
+    { link: 'https://github.com/qzh200', label: 'GitHub' },
+    { link: 'https://blog.hoshiumi.xyz/', label: 'Blog' },
+    { link: 'mailto:hi@hoshiumi.xyz', label: 'Email Me', highlight: true },
   ],
 }
 
@@ -102,23 +102,15 @@ const workerConfig: WorkerConfig = {
 // Also, related downtime notifications will be skipped (if any)
 // Of course, you can leave it empty if you don't need this feature
 
-// const maintenances: MaintenanceConfig[] = []
-
 const maintenances: MaintenanceConfig[] = [
   {
-    // [Optional] Monitor IDs to be affected by this maintenance
-    monitors: ['foo_monitor', 'bar_monitor'],
-    // [Optional] default to "Scheduled Maintenance" if not specified
-    title: 'Test Maintenance',
-    // Description of the maintenance, will be shown at status page
-    body: 'This is a test maintenance, server software upgrade',
-    // Start time of the maintenance, in UNIX timestamp or ISO 8601 format
-    start: '2020-01-01T00:00:00+08:00',
-    // [Optional] end time of the maintenance, in UNIX timestamp or ISO 8601 format
-    // if not specified, the maintenance will be considered as on-going
-    end: '2050-01-01T00:00:00+08:00',
-    // [Optional] color of the maintenance alert at status page, default to "yellow"
-    color: 'blue',
+    // Example: scheduled maintenance for the blog
+    // monitors: ['blog'],
+    // title: 'Blog maintenance',
+    // body: 'Database migration in progress.',
+    // start: '2026-01-01T00:00:00+08:00',
+    // end: '2026-01-01T01:00:00+08:00',
+    // color: 'blue',
   },
 ]
 

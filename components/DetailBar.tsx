@@ -106,10 +106,13 @@ export default function DetailBar({
             height: '20px',
             width: '7px',
             background: getColor(dayPercent, false),
-            borderRadius: '2px',
+            borderRadius: '3px',
             marginLeft: '1px',
             marginRight: '1px',
+            transition: 'transform 200ms ease',
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scaleY(1.2)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scaleY(1)')}
           onClick={() => {
             if (dayDownTime > 0) {
               setModalTitle(

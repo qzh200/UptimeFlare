@@ -5,6 +5,16 @@ import { MaintenanceConfig, MonitorTarget } from '@/types/config'
 import { pageConfig } from '@/uptime.config'
 import { useTranslation } from 'react-i18next'
 
+/** Map a configured maintenance color to a Mantine color name. */
+function resolveMantineColor(
+  configured: string | undefined,
+  upcoming: boolean,
+  fallback: string,
+): string {
+  if (upcoming) return pageConfig.maintenances?.upcomingColor ?? 'gray'
+  return configured || fallback
+}
+
 export default function MaintenanceAlert({
   maintenance,
   style,
@@ -22,66 +32,44 @@ export default function MaintenanceAlert({
     <Alert
       icon={<IconAlertTriangle />}
       title={
-        <span
-          style={{
-            fontSize: '1rem',
-            fontWeight: 700,
-          }}
-        >
-          {(upcoming ? t('Upcoming') : '') + (maintenance.title || t('Scheduled Maintenance'))}
+        <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>
+          {(upcoming ? t('Upcoming') + ' · ' : '') +
+            (maintenance.title || t('Scheduled Maintenance'))}
         </span>
       }
-      color={
-        upcoming ? pageConfig.maintenances?.upcomingColor ?? 'gray' : maintenance.color || 'yellow'
-      }
+      color={resolveMantineColor(maintenance.color, upcoming, 'yellow')}
       withCloseButton={false}
+      variant="light"
+      radius="md"
       style={{ margin: '16px auto 0 auto', ...style }}
     >
-      {/* Date range in top right (desktop) or inline (mobile) */}
       <div
         style={{
-          ...{
-            top: 10,
-            fontSize: '0.85rem',
-            borderRadius: 6,
-          },
-          ...(isDesktop
-            ? {
-                position: 'absolute',
-                right: 10,
-                padding: '2px 8px',
-                textAlign: 'right',
-              }
-            : { marginBottom: 4 }),
+          position: isDesktop ? 'absolute' : 'static',
+          top: 10,
+          right: 14,
+          fontSize: '0.8rem',
+          color: 'hsl(var(--muted-foreground))',
+          textAlign: isDesktop ? 'right' : 'left',
         }}
       >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr',
-            gridColumnGap: '3px',
-          }}
-        >
-          <div style={{ textAlign: 'right', fontWeight: 'bold' }}>
-            {upcoming ? t('Scheduled for') : t('From')}
-          </div>
-          <div>{new Date(maintenance.start).toLocaleString()}</div>
-          <div style={{ textAlign: 'right', fontWeight: 'bold' }}>
-            {upcoming ? t('Expected end') : t('To')}
-          </div>
-          <div>
-            {maintenance.end
-              ? new Date(maintenance.end).toLocaleString()
-              : t('Until further notice')}
-          </div>
+        <div>
+          <b>{upcoming ? t('Scheduled for') : t('From')}:</b>{' '}
+          {new Date(maintenance.start).toLocaleString()}
+        </div>
+        <div>
+          <b>{upcoming ? t('Expected end') : t('To')}:</b>{' '}
+          {maintenance.end
+            ? new Date(maintenance.end).toLocaleString()
+            : t('Until further notice')}
         </div>
       </div>
 
-      <Text style={{ paddingTop: '3px', whiteSpace: 'pre-line' }}>{maintenance.body}</Text>
+      <Text style={{ paddingTop: '4px', whiteSpace: 'pre-line' }}>{maintenance.body}</Text>
       {maintenance.monitors && maintenance.monitors.length > 0 && (
         <>
-          <Text mt="xs">
-            <b>{t('Affected components')}</b>
+          <Text mt="xs" fw={600}>
+            {t('Affected components')}
           </Text>
           <List size="sm" withPadding>
             {maintenance.monitors.map((comp, compIdx) => (

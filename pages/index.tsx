@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import { Inter } from 'next/font/google'
 import { MonitorTarget } from '@/types/config'
 import { maintenances, pageConfig } from '@/uptime.config'
 import OverallStatus from '@/components/OverallStatus'
@@ -13,7 +12,6 @@ import { useTranslation } from 'react-i18next'
 import { CompactedMonitorStateWrapper, getFromStore } from '@/worker/src/store'
 
 export const runtime = 'experimental-edge'
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({
   compactedStateStr,
@@ -48,7 +46,7 @@ export default function Home({
         <link rel="icon" href={pageConfig.favicon ?? '/favicon.png'} />
       </Head>
 
-      <main className={inter.className}>
+      <main>
         <Header />
 
         {state.lastUpdate === 0 ? (
@@ -73,17 +71,19 @@ export async function getServerSideProps() {
   // Read state as string from storage, to avoid hitting server-side cpu time limit
   const compactedStateStr = await getFromStore(process.env as any, 'state')
 
-  // Only present these values to client
+  // Only present these values to client. Coerce undefined to null so the
+  // payload is JSON-serializable (Next.js rejects getServerSideProps
+  // payloads containing undefined).
   const monitors = workerConfig.monitors.map((monitor) => {
     return {
       id: monitor.id,
       name: monitor.name,
       // @ts-ignore
-      tooltip: monitor?.tooltip,
+      tooltip: monitor?.tooltip ?? null,
       // @ts-ignore
-      statusPageLink: monitor?.statusPageLink,
+      statusPageLink: monitor?.statusPageLink ?? null,
       // @ts-ignore
-      hideLatencyChart: monitor?.hideLatencyChart,
+      hideLatencyChart: monitor?.hideLatencyChart ?? null,
     }
   })
 

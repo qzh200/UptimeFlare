@@ -1,0 +1,125 @@
+/* =============================================================================
+ * shoka theme — design tokens shared with astro-koharu.
+ * Source of truth: astro-koharu/src/styles/theme/{shadcn,index}.css
+ *
+ * Only the *foundations* are imported here (color tokens, font stack, radius,
+ * shadows, the page background). The decorative shoka effects (glowing
+ * buttons, gradient text, note-block left bars) intentionally live in the
+ * blog post content and are not used on a status page.
+ * ============================================================================= */
+
+@layer base {
+  :root {
+    /* shadcn-style HSL tokens (light) */
+    --background: 227 100% 98%;
+    --foreground: 226 42% 26%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 226 42% 26%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 226 42% 26%;
+
+    --primary: 227 75% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 226 100% 96%;
+    --secondary-foreground: 226 42% 26%;
+
+    --muted: 226 100% 96%;
+    --muted-foreground: 225 18% 43%;
+
+    --accent: 226 100% 93%;
+    --accent-foreground: 226 42% 26%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 60% 42%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 226 60% 90%;
+    --input: 226 60% 90%;
+    --ring: 227 75% 65%;
+
+    --radius: 0.75rem;
+
+    /* Page background — light, very subtle wash inspired by the blog's
+     * gradient-bg (f6f8ff → edf2ff) but de-saturated so it doesn't fight
+     * with the status content. */
+    --page-bg: #f6f8ff;
+
+    /* Soft card shadow matching the blog's card shadow. */
+    --shadow-card: 0 0.625rem 1.875rem rgba(90, 97, 105, 0.10);
+    --shadow-card-hover: 0 0.875rem 2.25rem rgba(90, 97, 105, 0.16);
+  }
+
+  .dark {
+    --background: 225 45% 12%;
+    --foreground: 223 100% 96%;
+
+    --card: 225 42% 16%;
+    --card-foreground: 223 100% 96%;
+
+    --popover: 225 42% 16%;
+    --popover-foreground: 223 100% 96%;
+
+    --primary: 226 100% 74%;
+    --primary-foreground: 225 45% 12%;
+
+    --secondary: 224 35% 21%;
+    --secondary-foreground: 223 100% 96%;
+
+    --muted: 224 35% 21%;
+    --muted-foreground: 222 25% 72%;
+
+    --accent: 223 41% 29%;
+    --accent-foreground: 223 100% 96%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 225 45% 12%;
+
+    --success: 142 55% 55%;
+    --success-foreground: 225 45% 12%;
+
+    --warning: 38 92% 60%;
+    --warning-foreground: 225 45% 12%;
+
+    --border: 223 41% 29%;
+    --input: 223 41% 29%;
+    --ring: 226 100% 74%;
+
+    --page-bg: #0e1426;
+
+    --shadow-card: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.45);
+    --shadow-card-hover: 0 0.875rem 2.25rem rgba(0, 0, 0, 0.55);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    background: var(--page-bg);
+  }
+  body {
+    background: transparent;
+    color: hsl(var(--foreground));
+    font-family: '寒蝉全圆体', 'ChillRound', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  main {
+    min-height: calc(100vh - 64px);
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+  }
+}
