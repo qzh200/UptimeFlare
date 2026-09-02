@@ -52,6 +52,11 @@
      * with the status content. */
     --page-bg: #f6f8ff;
 
+    /* Override Mantine's body / text tokens so the shoka page-bg shows
+     * through instead of Mantine's default light blue. */
+    --mantine-color-body: var(--page-bg);
+    --mantine-color-text: hsl(var(--foreground));
+
     /* Soft card shadow matching the blog's card shadow. */
     --shadow-card: 0 0.625rem 1.875rem rgba(90, 97, 105, 0.10);
     --shadow-card-hover: 0 0.875rem 2.25rem rgba(90, 97, 105, 0.16);
@@ -93,6 +98,8 @@
     --ring: 226 100% 74%;
 
     --page-bg: #0e1426;
+    --mantine-color-body: var(--page-bg);
+    --mantine-color-text: hsl(var(--foreground));
 
     --shadow-card: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.45);
     --shadow-card-hover: 0 0.875rem 2.25rem rgba(0, 0, 0, 0.55);
@@ -115,11 +122,30 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
+  /* Next.js wraps <main> in a <div id="__next">. Make that wrapper a flex
+   * column that fills the body so <main> can grow to fill the viewport. */
+  #__next {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--page-bg);
+  }
+  /* <main> holds the page content + Footer. Make it a flex column that
+   * fills <#__next> so the footer is pushed to the bottom of the page. */
   main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--page-bg);
+  }
+  /* The footer is the last direct child of <main>. Auto top margin pushes
+   * it to the bottom of the column when content is short. */
+  main > footer {
+    margin-top: auto;
   }
 
   ::selection {
