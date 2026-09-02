@@ -42,7 +42,7 @@ const mock: MonitorStateCompacted = {
   overallDown: 0,
   incident: {
     blog: {
-      start: [dayAgo, dayAgo + 86400 * 5, dayAgo + 86400 * 12],
+      start: [[dayAgo], [dayAgo + 86400 * 5], [dayAgo + 86400 * 12]],
       end: [dayAgo + 3600, dayAgo + 86400 * 5 + 3600, dayAgo + 86400 * 12 + 7200],
       error: [
         ['Database connection timeout'],
@@ -51,17 +51,17 @@ const mock: MonitorStateCompacted = {
       ],
     },
     sink: {
-      start: [dayAgo],
+      start: [[dayAgo]],
       end: [null],
       error: [['Connection refused (HTTP 502)']],
     },
     comment: {
-      start: [dayAgo],
+      start: [[dayAgo]],
       end: [dayAgo + 1800],
       error: [['Upstream timeout']],
     },
     r2: {
-      start: [dayAgo],
+      start: [[dayAgo]],
       end: [dayAgo + 60],
       error: [['Edge cold start']],
     },

@@ -101,18 +101,20 @@ const workerConfig: WorkerConfig = {
 // During maintenance, an alert will be shown at status page
 // Also, related downtime notifications will be skipped (if any)
 // Of course, you can leave it empty if you don't need this feature
+//
+// Example:
+// const maintenances: MaintenanceConfig[] = [
+//   {
+//     monitors: ['blog'],
+//     title: 'Blog maintenance',
+//     body: 'Database migration in progress.',
+//     start: '2026-01-01T00:00:00+08:00',
+//     end: '2026-01-01T01:00:00+08:00',
+//     color: 'blue',
+//   },
+// ]
 
-const maintenances: MaintenanceConfig[] = [
-  {
-    // Example: scheduled maintenance for the blog
-    // monitors: ['blog'],
-    // title: 'Blog maintenance',
-    // body: 'Database migration in progress.',
-    // start: '2026-01-01T00:00:00+08:00',
-    // end: '2026-01-01T01:00:00+08:00',
-    // color: 'blue',
-  },
-]
+const maintenances: MaintenanceConfig[] = []
 
 // Don't edit this line
 export { maintenances, pageConfig, workerConfig }

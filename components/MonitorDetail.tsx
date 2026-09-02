@@ -66,10 +66,10 @@ export default function MonitorDetail({
       />
     )
 
-  let totalTime = Date.now() / 1000 - state.incident[monitor.id][0].start
+  let totalTime = Date.now() / 1000 - state.incident[monitor.id][0].start[0]
   let downTime = 0
   for (let incident of state.incident[monitor.id]) {
-    downTime += (incident.end ?? Date.now() / 1000) - incident.start
+    downTime += (incident.end ?? Date.now() / 1000) - incident.start[0]
   }
 
   const uptimePercent = (((totalTime - downTime) / totalTime) * 100).toPrecision(4)
