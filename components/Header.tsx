@@ -25,11 +25,7 @@ export default function Header({ style }: { style?: React.CSSProperties }) {
   return (
     <header className={classes.header} style={style}>
       <Container size="md" className={classes.inner}>
-        <a
-          href={location.pathname == '/' ? (pageConfig.homeUrl ?? '/') : '/'}
-          target={location.pathname == '/' ? undefined : undefined}
-          className={classes.brand}
-        >
+        <a href={location.pathname == '/' ? 'https://blog.hoshiumi.xyz/' : '/'} className={classes.brand}>
           {pageConfig.logo ? (
             <Image
               src={pageConfig.logo}
