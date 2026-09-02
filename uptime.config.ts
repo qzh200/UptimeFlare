@@ -53,7 +53,7 @@ const workerConfig: WorkerConfig = {
     id: 'r2',
     name: 'R2 Storage',
     method: 'GET',
-    target: 'https://r2.hoshiumi.xyz/你的某个长期存在的文件',
+    target: 'https://r2.hoshiumi.xyz/old_img/ChatGPT%20Image%202026%E5%B9%B47%E6%9C%8827%E6%97%A5%2010_12_09.png',
     tooltip: '博客 R2 静态资源',
     statusPageLink: 'https://blog.hoshiumi.xyz/',
     expectedCodes: [200],
