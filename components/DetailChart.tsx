@@ -84,10 +84,6 @@ export default function DetailChart({
         display: true,
         text: t('Response times'),
         align: 'start' as const,
-        font: {
-          size: 13,
-          weight: 600 as const,
-        },
       },
     },
     scales: {
