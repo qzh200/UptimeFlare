@@ -59,6 +59,16 @@ const workerConfig: WorkerConfig = {
     expectedCodes: [200],
     timeout: 10000,
   },
+  {
+    id: 'drive',
+    name: 'Drive',
+    method: 'GET',
+    target: 'https://drive.hoshiumi.xyz/',
+    tooltip: '文件存储服务',
+    statusPageLink: 'https://drive.hoshiumi.xyz/',
+    expectedCodes: [200],
+    timeout: 10000,
+  },
 ],
   // [Optional] Notification settings
   notification: {
